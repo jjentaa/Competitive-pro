@@ -2,7 +2,6 @@
 
 using namespace std;
 vector<int> attack;
-pair<int, int> stat;
 int main(){
     ios_base::sync_with_stdio(0), cin.tie(0);
     int n, x;
@@ -11,52 +10,32 @@ int main(){
         cin >> x;
         attack.push_back(x);
     }
-    stat.first = n;
-    stat.second = n;
+    int hp0=n, hp1=n;
 
-    int i=1, counterE=0, counterO=0;
-    if(attack[0]%2){
-        counterO++;
-        stat.second-=1;
-    }
-    else{
-        counterE++;
-        stat.first-=1;
-    }
-    while((stat.first>0)&&(stat.second>0)){
-        //odd
+    int counter0=0, counter1=0;
+    for(int i=0; i<2*n; i++){
         if(attack[i]%2){
-            if(attack[i-1]%2==attack[i]%2){
-                counterO++;
-            }
-            else{
-                counterO=0;
-            }
-
-            if(counterO>=3){
-                stat.second -= 3;
-            }
+            counter0=0;
+            counter1++;
+            if(counter1>=3) hp0-=3; 
+            else hp0--;
         }
-        //even
         else{
-            if(attack[i-1]%2==attack[i]%2){
-                counterE++;
-            }
-            else{
-                counterE=0;
-            }
-            if(counterO>=3){
-                stat.first -= 3;
-            }
+            counter1=0;
+            counter0++;
+            if(counter0>=3) hp1-=3; 
+            else hp1--;
         }
-        i++;
+        if(hp0<=0){
+            cout << 1 << "\n" << attack[i];
+            break;
+        }
+        if(hp1<=0){
+            cout << 0 << "\n" << attack[i];
+            break;
+        }
     }
-    if(stat.first>0){
-        cout << 1 << "\n" << attack[i];
-    }
-    else{
-        cout << 0 << "\n" << attack[i];
-    }
+
 
     return 0;
 }
